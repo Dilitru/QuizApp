@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quiz Game</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -133,6 +134,14 @@ body {
   background: linear-gradient(to bottom, lightblue, darkblue);
   background-repeat: no-repeat; /* stop repeating */
   background-attachment: fixed; /* keep gradient fixed */
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, lightblue, darkblue);
+  color: white;
+
 }
 
 	
@@ -216,6 +225,7 @@ body {
   color: white;
   font-size: 20px;
   margin-bottom: 15px;
+  }
   
   #answerBox {
   font-size: 1.2em;
@@ -226,7 +236,19 @@ body {
   display: block;
 }
 
+.version-text {
+  position: fixed;       /* stays in place */
+  bottom: 5px;           /* near the bottom edge */
+  left: 50%;             /* center horizontally */
+  transform: translateX(-50%); /* true centering */
+  font-size: 10px;       /* tiny text */
+  font-weight: bold;     /* readable */
+  color: white;          /* matches your theme */
+  opacity: 0.8;          /* subtle but visible */
+  margin: 0;
 }
+
+
 
   </style>
 </head>
@@ -237,30 +259,30 @@ body {
 
   <!-- Setup -->
   <div id="setup">
-    <input id="tableNumber" placeholder="Enter table number">
+    <input id="tableNumber" placeholder="Enter table number"> <br>
     <button onclick="setTable()">Next</button>
   </div>
 
 <!-- Questions -->
 <div id="questions" style="display:none;">
   <p class="question-title">Select a question:</p>
-  <button onclick="showQuestion(1)">Q1</button>
-  <button onclick="showQuestion(2)">Q2</button>
-  <button onclick="showQuestion(3)">Q3</button>
-  <button onclick="showQuestion(4)">Q4</button>
-  <button onclick="showQuestion(5)">Q5</button>
+  <button onclick="showQuestion(1)">Q1</button> <br>
+  <button onclick="showQuestion(2)">Q2</button> <br>
+  <button onclick="showQuestion(3)">Q3</button> <br>
+  <button onclick="showQuestion(4)">Q4</button> <br>
+  <button onclick="showQuestion(5)">Q5</button> <br>
 </div>
 
 
 <!-- Game -->
 <div id="game" style="display:none;">
-  <div id="scrambleText"></div>
-  <input id="answerBox" type="text" placeholder="Type your answer here">
-  <button onclick="sendData()">SEND</button>
-  <button onclick="goBack()">Back to Questions</button>
+  <div id="scrambleText"></div> <br>
+  <input id="answerBox" type="text" placeholder="Type your answer here"> <br>
+  <button onclick="sendData()">SEND</button> <br>
+  <button onclick="goBack()">Back to Questions</button> <br>
 </div>
 
-1
+<p class="version-text">v1</p>
 
 </body>
 </html>
