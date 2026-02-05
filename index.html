@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz Game</title>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    // Replace with your Firebase config
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    let tableNumber = null;
+    let currentQuestion = null;
+
+    const answers = {
+      1: "FOOD POVERTY",
+      2: "DHA",
+      3: "BRAIN",
+      4: "SYNAPTOGENESIS",
+      5: "DHASURV"
+    };
+
+    window.setTable = function() {
+      tableNumber = document.getElementById("tableNumber").value;
+      if (!tableNumber) { alert("Enter table number!"); return; }
+      document.getElementById("setup").style.display = "none";
+      document.getElementById("questions").style.display = "block";
+    }
+
+    window.showQuestion = function(num) {
+  currentQuestion = num;
+  document.getElementById("questions").style.display = "none";
+  document.getElementById("game").style.display = "block";
+
+  const correctAnswer = answers[num];
+  const scrambled = correctAnswer.split("").sort(() => Math.random() - 0.5);
+
+  const container = document.getElementById("scrambleText");
+  container.innerHTML = "";
+  scrambled.forEach(letter => {
+    const span = document.createElement("span");
+    span.textContent = letter;
+    span.className = "scramble-letter";
+    container.appendChild(span);
+  });
+
+  document.getElementById("answerBox").value = "";
+}
+
+window.sendData = async function() {
+  // Normalize user input: trim, uppercase, remove spaces
+  const userAnswer = document.getElementById("answerBox").value
+    .trim()
+    .toUpperCase()
+    .replace(/\s+/g, "");
+
+  const correctAnswer = answers[currentQuestion]
+    .toUpperCase()
+    .replace(/\s+/g, "");
+
+  if (userAnswer !== correctAnswer) {
+    //  Wrong answer popup
+    alert("Answer is wrong! Please try again.");
+    return;
+  }
+
+  //  Correct answer popup immediately
+  alert("Correct! Answer submitted.");
+
+  // Then attempt to send data to Firebase
+  try {
+    await addDoc(collection(db, "submissions"), {
+      tableNumber: tableNumber,
+      questionNumber: currentQuestion,
+      timestamp: Date.now()
+    });
+    // Hide the game section after submission
+    document.getElementById("game").style.display = "none";
+    document.getElementById("questions").style.display = "block";
+  } catch (e) {
+    console.error(e);
+    alert("Error submitting to server, but your answer was correct.");
+  }
+}
+
+    window.closePopup = function() {
+      document.getElementById("popup").style.display = "none";
+    }
+	
+	window.goBack = function() {
+  document.getElementById("game").style.display = "none";
+  document.getElementById("questions").style.display = "block";
+  document.getElementById("answerBox").value = "";
+	}
+	
+	// Attach listener once the page loads
+window.onload = function() {
+  const answerBox = document.getElementById("answerBox");
+  answerBox.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+      event.preventDefault(); // prevent form submission refresh
+      sendData();             // call the same function as SEND button
+    }
+  });
+};
+
+
+  </script>
+  <style>
+    body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, lightblue, darkblue);
+}
+	
+	
+    .logo {
+		width: 120px;       /* control width */
+		height: auto;       /* let height adjust naturally */
+		margin-bottom: 20px;
+	}
+
+    input, textarea {
+      width: 90%;
+      max-width: 400px;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+    }
+    button {
+      background-color: red;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      padding: 12px 24px;
+      font-size: 16px;
+      margin: 8px 0;
+      cursor: pointer;
+      width: 90%;
+      max-width: 400px;
+    }
+    button:hover {
+      opacity: 0.85;
+    }
+    #popup {
+      display:none;
+      position:fixed;
+      top:50%; left:50%;
+      transform:translate(-50%,-50%);
+      background:white;
+      border:2px solid black;
+      padding:20px;
+      text-align:center;
+    }
+    img {
+      max-width: 90%;
+      height: auto;
+      margin: 15px 0;
+    }
+	
+	#scrambleText {
+	margin: 20px 0;
+	text-align: center;
+	}
+
+	.scramble-letter {
+  display: inline-block;
+  font-size: 32px;
+  font-weight: bold;
+  color: white; /* fill stays visible */
+  text-shadow: 
+    -2px -2px 0 black,
+     2px -2px 0 black,
+    -2px  2px 0 black,
+     2px  2px 0 black; /* outline effect */
+  margin: 5px;
+}
+	
+	.popup {
+  display: none;
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border: 2px solid black;
+  padding: 20px;
+  text-align: center;
+  z-index: 1000;
+	}
+
+  .question-title {
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- Logo always on top -->
+  <img src="logo.png" alt="Logo" class="logo">
+
+  <!-- Setup -->
+  <div id="setup">
+    <input id="tableNumber" placeholder="Enter table number">
+    <button onclick="setTable()">Next</button>
+  </div>
+
+<!-- Questions -->
+<div id="questions" style="display:none;">
+  <p class="question-title">Select a question:</p>
+  <button onclick="showQuestion(1)">Q1</button>
+  <button onclick="showQuestion(2)">Q2</button>
+  <button onclick="showQuestion(3)">Q3</button>
+  <button onclick="showQuestion(4)">Q4</button>
+  <button onclick="showQuestion(5)">Q5</button>
+</div>
+
+
+<!-- Game -->
+<div id="game" style="display:none;">
+  <div id="scrambleText"></div>
+  <input id="answerBox" type="text" placeholder="Type your answer here">
+  <button onclick="sendData()">SEND</button>
+  <button onclick="goBack()">Back to Questions</button>
+</div>
+
+
+</body>
+</html>
