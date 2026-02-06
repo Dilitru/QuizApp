@@ -115,10 +115,10 @@ function restoreSpaces(original, built) {
     let currentQuestion = null;
 
     const answers = {
-      1: "FOOD POVERTY",
+      1: "POVERTY",
       2: "DHA",
       3: "BRAIN",
-      4: "SYNAPTOGENESIS",
+      4: "SYNAPSE",
       5: "DHASURV"
     };
 	
@@ -133,7 +133,7 @@ function restoreSpaces(original, built) {
 
     window.setTable = function() {
       tableNumber = document.getElementById("tableNumber").value;
-      if (!tableNumber) { alert("Enter table number!"); return; }
+      if (!tableNumber || isNaN(tableNumber) || tableNumber < 1) { alert("Enter table number!"); return; }
       document.getElementById("setup").style.display = "none";
       document.getElementById("questions").style.display = "block";
     }
@@ -172,15 +172,15 @@ function closePopup() {
   </script>
   <style>
   html, body {
-  height: 100%;              /* stretch to full viewport */
+  height: 90%;              /* stretch to full viewport */
   margin: 0;
   padding: 0;
 }
 
 
 body {
-  min-height: 100vh;          /* always at least full screen height */
-  background: linear-gradient(to bottom, lightblue, darkblue);
+  min-height: 90vh;          /* always at least full screen height */
+  background: linear-gradient(to bottom, #ff131c, #81191d);
   background-repeat: no-repeat; /* stop tiling */
   background-attachment: fixed; /* lock gradient to viewport */
   background-size: cover;       /* stretch gradient to cover entire screen */
@@ -191,8 +191,7 @@ body {
   margin: 0;
   padding: 20px;
   text-align: center;
-  min-height: 100vh;
-  color: white;
+  
 
 }
 
@@ -201,7 +200,7 @@ body {
     .logo {
 		width: 120px;       /* control width */
 		height: auto;       /* let height adjust naturally */
-		margin-bottom: 20px;
+		margin-bottom: 10px;
 	}
 
     input, textarea {
@@ -217,7 +216,7 @@ body {
   margin: 10px;
   border: none;
   border-radius: 8px;
-  background-color:  #8B0000;
+  background-color:  #ff131c;
   color: white;
   font-weight: bold;
 }
@@ -281,13 +280,13 @@ body {
 .question-text {
   font-size: 18px;        /* readable size */
   font-weight: bold;      /* emphasis */
-  color: white;           /* matches your theme */
+  color: red;           /* matches your theme */
   text-align: center;     /* centered above letters */
   margin-bottom: 15px;    /* spacing before scrambled letters */
 }
 
 #backButton {
-  background-color: #333333; /* dark grey */
+  background-color: #b5b5b5; /* dark grey */
   color: white;
   border: none;
   border-radius: 10px; /* slightly rounded */
@@ -305,6 +304,9 @@ body {
 #answerArea {
 	font-size: 2em;
 	font-weight: bold;
+	color: red;
+  letter-spacing: 0.2em; /* adds space */
+
 }
 
 /* Overlay */
@@ -340,42 +342,163 @@ body {
   cursor: pointer;
 }
 
+
+
+  /* Center the setup area */
+  #setup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 60vh; /* full screen height */
+    background: white;
+    border-radius: 20px;
+    max-width: 400px;
+    margin: auto;
+    padding: 40px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    text-align: center;
+  }
+
+  /* Heading text */
+  #setup h2 {
+    color: red;
+    margin-bottom: 0px;
+	padding: 10px;
+	border: 3px solid red;
+	border-radius: 12px;
+  }
+  
+  #setup h4 {
+    color: red;
+    margin-bottom: 0px;
+  }
+
+  /* Input styling */
+  #setup input {
+    background: white;
+    color: red;
+    border: 1px solid red;
+    border-radius: 10px;
+    padding: 10px;
+    width: 80%;
+    font-size: 16px;
+	font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  /* Button styling */
+  #setup button {
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 18px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  #setup button:hover {
+    background: darkred;
+  }
+  
+  #questions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh; /* full screen height */
+    
+    border-radius: 20px;
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    text-align: center;
+  }
+  
+  #questions button {
+    font-size: 1.2em;       /* scales with screen */
+  padding: 10px 90px;
+  margin: 10px;
+  border: none;
+  border-radius: 8px;
+  background-color:  white;
+  color: red;
+  font-weight: bold;
+  }
+  
+  #questions h2 {
+  font-size: 1.1em;
+    color: white;
+    margin-bottom: 0px;
+	padding: 5px;
+	border: 3px solid white;
+	border-radius: 12px;
+  }
+  
+  #game {
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh; /* full screen height */
+    background: white;
+    border-radius: 10px;
+    max-width: 400px;
+    margin: auto;
+    padding: 40px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    text-align: center;
+  }
+  
+  #game h4 {
+  font-color: red;
+  }
+
   </style>
 </head>
 <body>
 
   <!-- Logo always on top -->
-  <img src="logo.png" alt="Logo" class="logo">
+  
 
-  <!-- Setup -->
-  <div id="setup">
-    <input 
-  type="number" 
-  id="tableNumber" 
-  min="1" 
-  step="1" 
-  placeholder="Enter table number">
- <br>
-    <button onclick="setTable()">Next</button>
-  </div>
+<!-- Setup -->
+<div id="setup">
+<img src="logo.png" alt="Logo" class="logo">
+  <h2>Welcome to DHA Challenge!</h2><br>
+  <h4>Please enter your table number:</h4>
+  <input 
+    type="number" 
+    id="tableNumber" 
+    min="1" 
+    step="1" 
+    placeholder="Enter table number">
+  <button onclick="setTable()">Next</button>
+</div>
+
 
 <!-- Questions -->
 <div id="questions" style="display:none;">
-  <p class="question-title">Select a question:</p>
-  <button onclick="showQuestion(1)">Q1</button> <br>
-  <button onclick="showQuestion(2)">Q2</button> <br>
-  <button onclick="showQuestion(3)">Q3</button> <br>
-  <button onclick="showQuestion(4)">Q4</button> <br>
-  <button onclick="showQuestion(5)">Q5</button> <br>
+<img src="logo.png" alt="Logo" class="logo">
+  <p class="question-title"><h2>Please wait for the host's prompt before selecting a question</h2></p>
+  <button class="white-button" onclick="showQuestion(1)">Question 1</button> <br>
+  <button class="white-button" onclick="showQuestion(2)">Question 2</button> <br>
+  <button class="white-button" onclick="showQuestion(3)">Question 3</button> <br>
+  <button class="white-button" onclick="showQuestion(4)">Question 4</button> <br>
+  <button class="white-button" onclick="showQuestion(5)">Question 5</button> <br>
 </div>
 
 
 <!-- Game -->
 <div id="game" style="display:none;">
+<img src="logo.png" alt="Logo" class="logo">
   <div id="questionArea">
   <p class="question-text">Question will appear here</p>
-  </div><br>
-  	Press the letters in the correct order to form the answer!
+  </div>
+  	<h4>Press the letters in the correct order to form the answer!</h4>
     <div id="unscrambleArea"></div><br>
 
 	<div id="answerArea">---</div>
@@ -393,7 +516,7 @@ body {
 
 
 
-<p class="version-text">v4</p>
+<p class="version-text">v9</p>
 
 </body>
 </html>
