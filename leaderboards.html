@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Leaderboard</title>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Global text styling */
+    body {
+      font-family: 'Inter', sans-serif;
+      color: white;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      background-color: #8B0000;
+    }
+
+    h1 {
+  margin-top: 20px;
+  font-size: 48px;
+  text-shadow: 
+    0 0 10px #ffffff,
+    0 0 20px #ff0000,
+    0 0 30px #ff0000,
+    0 0 40px #ff0000;
+}
+
+    /* Buttons */
+    button {
+      background-color: #FF0000; /* bright red */
+      color: white;
+      border: none;
+      border-radius: 25px; /* rounded */
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #cc0000; /* darker red on hover */
+    }
+
+    /* Chart canvas */
+    #leaderboardChart {
+      background-color: transparent; /* keep background clean */
+      margin-top: 20px;
+    }
+  </style>
+
+  <!-- Inter font import -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <h1>DHA CHALLENGE LEADERBOARD</h1>
+  <div>
+    <button onclick="showLeaderboard(1)">Q1</button>
+    <button onclick="showLeaderboard(2)">Q2</button>
+    <button onclick="showLeaderboard(3)">Q3</button>
+    <button onclick="showLeaderboard(4)">Q4</button>
+    <button onclick="showLeaderboard(5)">Q5</button>
+  </div>
+  <canvas id="leaderboardChart" width="400" height="200"></canvas>
+
+  <script>
+    // Firebase config
+    const firebaseConfig = {
+  apiKey: "AIzaSyCv6nPwgzTl7qDNSZ1MkpoGAOHyxpkKL4s",
+  authDomain: "quizapp-cf724.firebaseapp.com",
+  databaseURL: "https://quizapp-cf724-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "quizapp-cf724",
+  storageBucket: "quizapp-cf724.firebasestorage.app",
+  messagingSenderId: "948696897116",
+  appId: "1:948696897116:web:8d8bf48e0b818ace0ef899",
+  measurementId: "G-MLNBNFC70Y"
+};
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    let chart; // global chart reference
+
+    async function showLeaderboard(questionNumber) {
+      // Query Firestore for submissions of this question
+      const snapshot = await db.collection("submissions")
+        .where("questionNumber", "==", questionNumber)
+        .get();
+
+      // Count answers per table
+      const counts = {};
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const table = data.tableNumber;
+        counts[table] = (counts[table] || 0) + 1;
+      });
+
+      // Prepare data for Chart.js
+      // Convert counts object into an array of [table, count] pairs
+const sortedEntries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+
+// Separate back into labels and values
+const labels = sortedEntries.map(([table]) => `Table ${table}`);
+const values = sortedEntries.map(([_, count]) => count);
+
+      const ctx = document.getElementById("leaderboardChart").getContext("2d");
+
+      // Destroy old chart if exists
+      if (chart) chart.destroy();
+
+      chart = new Chart(ctx, {
+  type: "bar",
+  data: {
+    labels: labels,
+    datasets: [{
+      data: values,
+      backgroundColor: "white" // bars are white
+    }]
+  },
+  options: {
+    plugins: {
+      legend: { display: false }
+    },
+    scales: {
+      x: {
+        ticks: { color: "white" }, // x-axis labels white
+        grid: { color: "rgba(255,255,255,0.2)" } // faint white grid
+      },
+      y: {
+        beginAtZero: true,
+        ticks: { precision: 0, color: "white" }, // y-axis labels white
+        grid: { color: "rgba(255,255,255,0.2)" }
+      }
+    }
+  }
+});
+    }
+  </script>
+</body>
+</html>
