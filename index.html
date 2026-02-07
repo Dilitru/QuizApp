@@ -180,7 +180,15 @@ function closePopup() {
 
 body {
   min-height: 90vh;          /* always at least full screen height */
-  background: linear-gradient(to bottom, #ff131c, #81191d);
+  background: linear-gradient(
+    to bottom,
+    #00008B 0%,   /* light blue from 0% */
+    #ADD8E6 88%,  /* stays dark blue until 80% */
+    #7CFC00 92%,  /* jumps to green at 80% */
+    #008000 100%  /* stays green until 100% */
+  );
+
+
   background-repeat: no-repeat; /* stop tiling */
   background-attachment: fixed; /* lock gradient to viewport */
   background-size: cover;       /* stretch gradient to cover entire screen */
@@ -350,7 +358,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 60vh; /* full screen height */
+    height: 50vh; /* full screen height */
     background: white;
     border-radius: 20px;
     max-width: 400px;
@@ -409,8 +417,8 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 78vh; /* full screen height */
-    
+    height: 70vh; /* full screen height */
+    background: white;
     border-radius: 20px;
     max-width: 400px;
     margin: auto;
@@ -425,17 +433,17 @@ body {
   margin: 10px;
   border: none;
   border-radius: 8px;
-  background-color:  white;
-  color: red;
+  background-color:  red;
+  color: white;
   font-weight: bold;
   }
   
   #questions h2 {
   font-size: 1.1em;
-    color: white;
+    color: red;
     margin-bottom: 0px;
 	padding: 5px;
-	border: 3px solid white;
+	border: 3px solid red;
 	border-radius: 12px;
   }
   
@@ -444,7 +452,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 80vh; /* full screen height */
+    height: 70vh; /* full screen height */
     background: white;
     border-radius: 10px;
     max-width: 400px;
@@ -458,16 +466,38 @@ body {
   font-color: red;
   }
 
+.logo-banner {
+  position: fixed;   /* pin to the very top */
+  top: 0;
+  left: 0;
+  width: 100%;       /* stretch edge-to-edge */
+  text-align: center;/* center the image inside */
+  z-index: 1000;
+}
+
+.logo-banner img {
+  width: 100%;       /* make the banner image span full width */
+  height: auto;      /* keep proportions */
+  display: block;    /* removes inline spacing */
+  margin: 0 auto;    /* ensures centered if not full width */
+}
+
+
+
+
+
   </style>
 </head>
 <body>
-
   <!-- Logo always on top -->
+<div class="logo-banner">
+  <img src="logo.png" alt="Logo">
+</div>
   
 
 <!-- Setup -->
 <div id="setup">
-<img src="logo.png" alt="Logo" class="logo">
+
   <h2>Welcome to DHA Challenge!</h2><br>
   <h4>Please enter your table number:</h4>
   <input 
@@ -482,7 +512,6 @@ body {
 
 <!-- Questions -->
 <div id="questions" style="display:none;">
-<img src="logo.png" alt="Logo" class="logo">
   <p class="question-title"><h2>Please wait for the host's prompt before selecting a question</h2></p>
   <button class="white-button" onclick="showQuestion(1)">Question 1</button> <br>
   <button class="white-button" onclick="showQuestion(2)">Question 2</button> <br>
@@ -494,7 +523,6 @@ body {
 
 <!-- Game -->
 <div id="game" style="display:none;">
-<img src="logo.png" alt="Logo" class="logo">
   <div id="questionArea">
   <p class="question-text">Question will appear here</p>
   </div>
@@ -516,7 +544,7 @@ body {
 
 
 
-<p class="version-text">v9</p>
+<p class="version-text">v10</p>
 
 </body>
 </html>
