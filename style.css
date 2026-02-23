@@ -88,8 +88,8 @@ button:hover {
 --- Question Pages Stlying ---
 */
 #illustration {
-  height: 1024px;                  /* always take 80% of viewport height */
-  width: 575px;                   /* full width */
+  height: 1200px;
+  width: 720px;
   margin: auto;
   position: relative;
 
@@ -100,8 +100,8 @@ button:hover {
 }
 
 #illustration2 {
-  height: 1024px;                  /* always take 80% of viewport height */
-  width: 575px;                   /* full width */
+  height: 1200px;
+  width: 720px;
   margin: auto;
   position: relative;
 
@@ -112,8 +112,8 @@ button:hover {
 }
 
 #illustration3 {
-  height: 1024px;                  /* always take 80% of viewport height */
-  width: 575px;                   /* full width */
+  height: 1200px;
+  width: 720px;
   margin: auto;
   position: relative;
 
@@ -146,7 +146,7 @@ button:hover {
 
 .answer-buttons button {
   font-size: 3rem;       /* more normal text size */
-  padding: 10px 20px;    /* normal padding */
+  padding: 10px 200px;    /* normal padding */
   border-radius: 8px;
   cursor: pointer;
   min-width: 80px;      /* consistent button width */
@@ -321,7 +321,8 @@ button:hover {
   border-radius: 16px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.3);
   padding: 30px;
-  max-width: 700px;
+  width: 800px;
+  max-width: 800px;
   margin: 60px auto;
   text-align: center;
   opacity: 0;                     /* start invisible */
@@ -343,7 +344,7 @@ button:hover {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 700px;
+  width: 800px;
   z-index: 0;
   /*animation: spinRays 10s linear infinite; /* slow rotation */
 }
@@ -355,7 +356,7 @@ button:hover {
 
 .can-img {
   position: relative;
-  width: 400px;
+  width: 500px;
   z-index: 1; /* sits above the rays */
 }
 
@@ -367,7 +368,7 @@ button:hover {
 }
 
 #resetBtn {
-  font-size: 0.7em;   /* very small font */
+  font-size: 1em;   /* very small font */
   padding: 10px;         /* no padding */
   margin: 0;          /* no margin */
   color: white;
