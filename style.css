@@ -6,12 +6,12 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: linear-gradient(to bottom, white, #90ee90); /* light green */
-  min-height: 100vh;
+  min-height: 90vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   color: #015718;
+  align-items: center;
+    justify-content: center;
 }
 
 
@@ -42,17 +42,20 @@ header {
   justify-content: center;
   background: #fff;
   border-radius: 20px;
-  max-width: 400px;       /* mobile-friendly width */
+  width: 90vh;
+  max-width: 720px;       /* mobile-friendly width */
   margin: auto;
   padding: 40px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.4);
   text-align: center;
+  font-size: 30px;
 }
 
 
 /* App logo inside card */
 #appLogo {
-  max-height: 80px;
+  height: 20vh;
+  max-height: 20vh;
   margin-bottom: 20px;
 }
 
@@ -63,7 +66,7 @@ input {
   margin: 8px 0;
   border: 1px solid #ccc;
   border-radius: 6px;
-  font-size: 16px;
+  font-size: 1.5em;
 }
 
 /* Button */
@@ -72,8 +75,8 @@ button {
   color: white;
   border: none;
   border-radius: 6px;
-  padding: 12px 24px;
-  font-size: 16px;
+  padding: 24px 48px;
+  font-size: 1.5em;
   cursor: pointer;
 }
 
@@ -85,8 +88,8 @@ button:hover {
 --- Question Pages Stlying ---
 */
 #illustration {
-  height: 480px;                  /* always take 80% of viewport height */
-  width: 270px;                   /* full width */
+  height: 1280px;                  /* always take 80% of viewport height */
+  width: 720px;                   /* full width */
   margin: auto;
   position: relative;
 
@@ -97,8 +100,8 @@ button:hover {
 }
 
 #illustration2 {
-  height: 480px;                  /* always take 80% of viewport height */
-  width: 270px;                   /* full width */
+  height: 1280px;                  /* always take 80% of viewport height */
+  width: 720px;                   /* full width */
   margin: auto;
   position: relative;
 
@@ -109,8 +112,8 @@ button:hover {
 }
 
 #illustration3 {
-  height: 480px;                  /* always take 80% of viewport height */
-  width: 270px;                   /* full width */
+  height: 1280px;                  /* always take 80% of viewport height */
+  width: 720px;                   /* full width */
   margin: auto;
   position: relative;
 
@@ -124,8 +127,8 @@ button:hover {
 /* Hotspots still overlay the illustration */
 .hotspot {
   position: absolute;
-  width: 50px;
-  height: 50px;
+  width: 200px;
+  height: 200px;
   background: rgba(255,0,0,0.3); /* semi-transparent red for testing */
   cursor: pointer;
 }
@@ -138,14 +141,15 @@ button:hover {
   flex-direction: column;   /* arrange horizontally */
   justify-content: center;
   gap: 20px;             /* spacing between buttons */
+  font-size: 1.5em;
 }
 
 .answer-buttons button {
-  font-size: 1rem;       /* more normal text size */
+  font-size: 3rem;       /* more normal text size */
   padding: 10px 20px;    /* normal padding */
   border-radius: 8px;
   cursor: pointer;
-  min-width: 120px;      /* consistent button width */
+  min-width: 80px;      /* consistent button width */
   
   /* Center text properly */
   display: flex;
@@ -174,14 +178,15 @@ button:hover {
   border-radius: 12px;
   box-shadow: 0 6px 16px rgba(0,0,0,0.25);
   padding: 40px;
-  max-width: 400px;
+  width: 80vh;
+  max-width: 700px;
   width: 90%;
   text-align: center;
 }
 
 .decode-card input {
   width: 100%;
-  font-size: 2rem;
+  font-size: 4rem;
   font-weight: bold;
   text-align: center;
   padding: 15px;
@@ -199,7 +204,7 @@ button:hover {
 
 .decode-card button {
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: 2.5em;
   padding: 20px 30px;
   border-radius: 8px;
   cursor: pointer;
@@ -241,22 +246,22 @@ button:hover {
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-  padding: 30px;              /* more breathing room */
-  max-width: 800px;           /* allow larger cards */
-  width: 80%;                 /* take more horizontal space */
+  padding: 50px;              /* more breathing room */
+  max-width: 870px;           /* allow larger cards */
+  width: 90%;                 /* take more horizontal space */
   margin: 40px auto;          /* bigger margin for centering */
   text-align: center;
 }
 
 .congrats-text {
-  font-size: 1.5rem;          /* larger headline */
+  font-size: 2rem;          /* larger headline */
   font-weight: bold;
   margin-bottom: 10px;
   color: #046100;
 }
 
 .equation-text {
-  font-size: 5rem;            /* even bigger equation */
+  font-size: 8rem;            /* even bigger equation */
   font-weight: bold;
   color: #DEB316;
 }
@@ -282,6 +287,8 @@ button:hover {
   margin: 20px auto;
 }
 .equation-row img {
+	height: 120px;
+	width:auto;
   max-height: 120px;        /* keep consistent sizing */
 }
 
@@ -292,7 +299,6 @@ button:hover {
   border-radius: 16px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.3);
   padding: 30px;
-  max-width: 400px;
   margin: 60px auto;
   text-align: center;
 }
@@ -304,7 +310,8 @@ button:hover {
 }
 
 .milk-can-btn img {
-  width: 200px;
+  width: 500px;
+  
 }
 
 /*Reveal Page*/
@@ -335,7 +342,7 @@ button:hover {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 460px;
+  width: 1500px;
   z-index: 0;
   /*animation: spinRays 10s linear infinite; /* slow rotation */
 }
@@ -347,12 +354,12 @@ button:hover {
 
 .can-img {
   position: relative;
-  width: 250px;
+  width: 600px;
   z-index: 1; /* sits above the rays */
 }
 
 .reveal-text {
-  font-size:0.8rem;
+  font-size:2rem;
   font-weight: bold;
   margin-top: 20px;
   color: #046100;

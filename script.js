@@ -330,10 +330,10 @@ function showAlert(text) {
   alertBox.style.left = "50%";
   alertBox.style.transform = "translate(-50%, -50%)";
   alertBox.style.background = "#fff";
-  alertBox.style.padding = "30px 60px";
+  alertBox.style.padding = "30px 30px";
   alertBox.style.borderRadius = "10px";
   alertBox.style.boxShadow = "0 6px 16px rgba(0,0,0,0.25)";
-  alertBox.style.fontSize = "1.5rem";
+  alertBox.style.fontSize = "3rem";
   alertBox.style.fontWeight = "bold";
   alertBox.style.zIndex = "9999";
   alertBox.style.textAlign = "center";
@@ -346,7 +346,7 @@ function showAlert(text) {
   // Add OK button
   const okButton = document.createElement("button");
   okButton.textContent = "OK";
-  okButton.style.fontSize = "1rem";
+  okButton.style.fontSize = "3rem";
   okButton.style.padding = "10px 20px";
   okButton.style.borderRadius = "6px";
   okButton.style.cursor = "pointer";
