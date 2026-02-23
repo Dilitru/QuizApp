@@ -88,8 +88,8 @@ button:hover {
 --- Question Pages Stlying ---
 */
 #illustration {
-  height: 1280px;                  /* always take 80% of viewport height */
-  width: 720px;                   /* full width */
+  height: 1024px;                  /* always take 80% of viewport height */
+  width: 575px;                   /* full width */
   margin: auto;
   position: relative;
 
@@ -100,8 +100,8 @@ button:hover {
 }
 
 #illustration2 {
-  height: 1280px;                  /* always take 80% of viewport height */
-  width: 720px;                   /* full width */
+  height: 1024px;                  /* always take 80% of viewport height */
+  width: 575px;                   /* full width */
   margin: auto;
   position: relative;
 
@@ -112,8 +112,8 @@ button:hover {
 }
 
 #illustration3 {
-  height: 1280px;                  /* always take 80% of viewport height */
-  width: 720px;                   /* full width */
+  height: 1024px;                  /* always take 80% of viewport height */
+  width: 575px;                   /* full width */
   margin: auto;
   position: relative;
 
@@ -321,7 +321,7 @@ button:hover {
   border-radius: 16px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.3);
   padding: 30px;
-  max-width: 600px;
+  max-width: 700px;
   margin: 60px auto;
   text-align: center;
   opacity: 0;                     /* start invisible */
@@ -343,7 +343,7 @@ button:hover {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 600px;
+  width: 700px;
   z-index: 0;
   /*animation: spinRays 10s linear infinite; /* slow rotation */
 }
@@ -364,4 +364,11 @@ button:hover {
   font-weight: bold;
   margin-top: 20px;
   color: #046100;
+}
+
+#resetBtn {
+  font-size: 0.7em;   /* very small font */
+  padding: 10px;         /* no padding */
+  margin: 0;          /* no margin */
+  color: white;
 }
