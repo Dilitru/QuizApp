@@ -36,13 +36,23 @@ header {
 -----Card styling-----
 */
 .card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
   padding: 20px;
-  max-width: 90vh;
-  margin: 40px auto;
+  margin: 20px auto;
+  max-width: 600px;       /* desktop limit */
+  width: 90%;             /* scale to viewport */
   text-align: center;
+}
+
+/* Mobile tweaks */
+@media (max-width: 480px) {
+  .card {
+    width: 95%;           /* almost full width */
+    padding: 15px;        /* lighter padding */
+    font-size: 1rem;      /* normalize text size */
+  }
 }
 
 /* App logo inside card */
