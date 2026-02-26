@@ -1,5 +1,5 @@
 //LIST OF ANSWERS
-const correctAnswers = ["A", "B", "C"];
+const correctAnswers = ["C", "A", "B"];
 let questionNumber = parseInt(localStorage.getItem("questionNumber")) || 1;
 
 /*
