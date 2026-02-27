@@ -131,7 +131,7 @@ button:hover {
   position: absolute;
   width: 200px;
   height: 200px;
-  background: rgba(255,0,0,0.3); /* semi-transparent red for testing */
+  background: rgba(255,0,0,0); /* semi-transparent red for testing */
   cursor: pointer;
 }
 
@@ -320,7 +320,7 @@ button:hover {
   width: 30%;    /* size of hotspot */
   height: 22%;
   cursor: pointer;
-  background: rgba(125, 0, 0, 0); /* fully transparent */
+  background: rgba(255, 0, 0, 0); /* fully transparent */
 }
 
 /*Reveal Page*/
