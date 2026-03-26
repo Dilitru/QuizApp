@@ -25,13 +25,28 @@ let questionNumber = parseInt(localStorage.getItem("questionNumber")) || 1;
 /*
 --- DEBUG MODE SWITCH---
 */
-let debug = false; //DEBUG MODE switch
+let debug = true; //DEBUG MODE switch
+
+/*
+--- Locked Status Array---
+*/
+let questionStatus = [false, false, false];
 
 /*
 -----On load: Checkpoint and debug mode-----
 */
 //This is the checkpoint/save system
 window.onload = function() {
+	  console.log("DEBUGE MODE:" + debug);
+
+  if (localStorage.getItem("finalPageUnlock") === null) {
+    // If not, create it and set to false
+    localStorage.setItem("finalPageUnlock", "false");
+    console.log("finalPageUnlock created and set to false");
+  } else {
+    console.log("finalPageUnlock already exists:", localStorage.getItem("finalPageUnlock"));
+  }
+
   // Get checkpoint from localStorage
   const checkpointValue = localStorage.getItem("checkpoint");
 
@@ -100,6 +115,7 @@ document.getElementById("resetBtn").addEventListener("click", () => {
   localStorage.removeItem("tableNumber");
   localStorage.removeItem("playerName");
   localStorage.removeItem("questionNumber");
+  localStorage.setItem("finalPageUnlock", "false");
   console.log("Checkpoint cleared. New game will start next load.");
   alert("Checkpoint reset! Reload the page to start fresh.");
 });
@@ -145,7 +161,7 @@ function sendPlayerName(playerName) {
     return;
   }
 
-  db.collection("submissions").add({
+  /*db.collection("submissions").add({
     type: "name",
     playerName: playerName, // use playerName instead of name
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
@@ -155,49 +171,162 @@ function sendPlayerName(playerName) {
    })
   .catch((err) => {
     console.error("Error adding document:", err);
-  });
+  });*/
 }
+
+// Firestore reference to the statusDoc
+const statusRef = db.collection("status").doc("statusDoc");
 
 /*
 --- Question 1 Page functions ---
 */
 // Handle hotspot click
-document.getElementById("q1spot").addEventListener("click", () => {
+document.getElementById("q1spot").addEventListener("click", async () => {
+	if(debug == true){
+	  advanceCheckpoint();
+		document.getElementById("question1Page").classList.add("hidden");			
+        document.getElementById("answer1Page").classList.remove("hidden");
+	  console.log("skipped check, going to next question");
+	  return;
+	}
   console.log("Question 1 hotspot clicked");
-
-  advanceCheckpoint();
-
-  // Hide question page, show answer page
-  document.getElementById("question1Page").classList.add("hidden");
-  document.getElementById("answer1Page").classList.remove("hidden");
+  try {
+    const doc = await statusRef.get();  // works if statusRef is a DocumentReference
+    if (doc.exists) {
+      questionStatus = doc.data().status;
+      console.log("Question status array saved in memory:", questionStatus);
+      if (isQuestionUnlocked()) {
+		console.log("showing answer 1 page");
+        advanceCheckpoint();
+        document.getElementById("question1Page").classList.add("hidden");
+        document.getElementById("answer1Page").classList.remove("hidden");
+      } else {
+        console.log("showing locked page");
+        showLockedPage();
+      }
+    } else {
+      console.error("statusDoc not found!");
+    }
+  } catch (error) {
+    console.error("Error fetching status:", error);
+  }
 });
 
 /*
 --- Question 2 Page functions ---
 */
 // Handle hotspot click
-document.getElementById("q2spot").addEventListener("click", () => {
+document.getElementById("q2spot").addEventListener("click", async () => {
+	if(debug == true){
+	  advanceCheckpoint();
+		document.getElementById("question2Page").classList.add("hidden");
+        document.getElementById("answer2Page").classList.remove("hidden");
+	  console.log("skipped check, going to next question");
+	  return;
+	}
   console.log("Question 2 hotspot clicked");
-
-  advanceCheckpoint();
-
-  // Hide question page, show answer page
-  document.getElementById("question2Page").classList.add("hidden");
-  document.getElementById("answer2Page").classList.remove("hidden");
+  try {
+    const doc = await statusRef.get();  // works if statusRef is a DocumentReference
+    if (doc.exists) {
+      questionStatus = doc.data().status;
+      console.log("Question status array saved in memory:", questionStatus);
+      if (isQuestionUnlocked()) {
+		console.log("showing answer 2 page");
+        advanceCheckpoint();
+        document.getElementById("question2Page").classList.add("hidden");
+        document.getElementById("answer2Page").classList.remove("hidden");
+      } else {
+        console.log("showing locked page");
+        showLockedPage();
+      }
+    } else {
+      console.error("statusDoc not found!");
+    }
+  } catch (error) {
+    console.error("Error fetching status:", error);
+  }
 });
 
 /*
 --- Question 3 Page functions ---
 */
 // Handle hotspot click
-document.getElementById("q3spot").addEventListener("click", () => {
+document.getElementById("q3spot").addEventListener("click", async () => {
+	if(debug == true){
+	  advanceCheckpoint();
+	  document.getElementById("question3Page").classList.add("hidden");
+        document.getElementById("answer3Page").classList.remove("hidden");
+	  console.log("skipped check, going to next question");
+	  return;
+	}
   console.log("Question 3 hotspot clicked");
+  try {
+    const doc = await statusRef.get();  // works if statusRef is a DocumentReference
+    if (doc.exists) {
+      questionStatus = doc.data().status;
+      console.log("Question status array saved in memory:", questionStatus);
+      if (isQuestionUnlocked()) {
+		console.log("showing answer 3 page");
+        advanceCheckpoint();
+        document.getElementById("question3Page").classList.add("hidden");
+        document.getElementById("answer3Page").classList.remove("hidden");
+      } else {
+        console.log("showing locked page");
+        showLockedPage();
+      }
+    } else {
+      console.error("statusDoc not found!");
+    }
+  } catch (error) {
+    console.error("Error fetching status:", error);
+  }
+});
 
-  advanceCheckpoint();
-
-  // Hide question page, show answer page
+/*
+--- SHOW LOCKED PAGE ---
+*/
+//Main Function
+function showLockedPage() {
+  document.getElementById("question1Page").classList.add("hidden");
+  document.getElementById("question2Page").classList.add("hidden");
   document.getElementById("question3Page").classList.add("hidden");
-  document.getElementById("answer3Page").classList.remove("hidden");
+  document.getElementById("questionLockedPage").classList.remove("hidden");
+  const okBtn = document.getElementById("okButton");
+  let countdown = 5; // seconds
+
+  // Disable button and set initial label
+  okBtn.disabled = true;
+  okBtn.textContent = `OK (${countdown})`;
+
+  // Countdown interval
+  const timer = setInterval(() => {
+    countdown--;
+
+    if (countdown > 0) {
+      okBtn.textContent = `OK (${countdown})`;
+    } else {
+      clearInterval(timer);
+      okBtn.textContent = "OK";
+      okBtn.disabled = false; // enable after countdown
+    }
+  }, 1000);
+}
+
+// Attach event listener to OK button
+document.getElementById("okButton").addEventListener("click", () => {
+  console.log("OK pressed, returning to question page...");
+  document.getElementById("questionLockedPage").classList.add("hidden");
+  switch (questionNumber){
+		case 1:
+			document.getElementById("question1Page").classList.remove("hidden");
+		break;
+		case 2:
+			document.getElementById("question2Page").classList.remove("hidden");
+		break;
+		case 3:
+			document.getElementById("question3Page").classList.remove("hidden");
+		break;
+  }
 });
 
 /*
@@ -237,24 +366,28 @@ function sendTableAndQuestion() {
   // Get values from localStorage
   const tableNumber = localStorage.getItem("tableNumber");
   const questionNumber = localStorage.getItem("questionNumber");
+
   console.log("tableNumber from localStorage:", tableNumber);
   console.log("questionNumber from localStorage:", questionNumber);
 
-
-  
   if (!tableNumber || !questionNumber) {
     console.error("Missing tableNumber or questionNumber in localStorage");
     return;
   }
 
-  db.collection("submissions").add({
+  // Build a custom doc ID
+  const timestamp = Date.now(); // milliseconds since 1970
+  const docId = `q${questionNumber}_t${tableNumber}_${timestamp}`;
+
+  // Create a reference with that ID
+  db.collection("submissions").doc(docId).set({
     type: "answer",
     tableNumber: parseInt(tableNumber, 10),   // store as number
     questionNumber: parseInt(questionNumber, 10),
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
   })
   .then(() => {
-    console.log(`Sent: table ${tableNumber}, question ${questionNumber}`);
+    console.log(`Sent: table ${tableNumber}, question ${questionNumber}, docId: ${docId}`);
   })
   .catch((err) => {
     console.error("Error adding document:", err);
@@ -278,13 +411,6 @@ function goToNextSection() {
   } else if (questionNumber === 4) {
     document.getElementById("decodePage").classList.remove("hidden");
   }
-}
-
-//Advances Question Number
-function advanceQuestionNumber() {
-  questionNumber++;
-  localStorage.setItem("questionNumber", questionNumber);
-  console.log("Question number advanced to:", questionNumber);
 }
 
 /*
@@ -361,19 +487,95 @@ let hotspotClicks = 0;
 
 document.getElementById("milkCanHotspot").addEventListener("click", () => {
   hotspotClicks++;
+  console.log("hotspot clicks:" + hotspotClicks);
   if (hotspotClicks >= 3) {
-    // Hide SecretPage
-    document.getElementById("secretPage").classList.add("hidden");
-    // Show RevealPage
-    document.getElementById("revealPage").classList.remove("hidden");
-    // Advance checkpoint
-    advanceCheckpoint();
+	  console.log("hotspot clicks more than 3")
+    if (debug){
+		console.log("skipping final page unlock check");
+		document.getElementById("secretPage").classList.add("hidden");
+		document.getElementById("revealPage").classList.remove("hidden");
+		advanceCheckpoint();
+		return;
+	}
+	isFinalPageUnlocked().then((unlocked) => {
+		if (unlocked) {
+			document.getElementById("secretPage").classList.add("hidden");
+			document.getElementById("revealPage").classList.remove("hidden");
+			advanceCheckpoint();
+		}
+	});
   }
 });
+
+// Track last check time
+let lastFinalPageCheck = 0;
+
+async function isFinalPageUnlocked() {
+  const now = Date.now();
+
+  // Step 1: Check localStorage first
+  const localValue = localStorage.getItem("finalPageUnlock");
+  if (localValue === "true") {
+	console.log("final page is already true");
+    return true;
+  }
+
+  // Step 2: Cooldown check
+  if (now - lastFinalPageCheck < 5000) {
+    console.log("Cooldown active: skipping Firestore read");
+    return false; // or return the last known local value
+  }
+
+  // Update last check time
+  lastFinalPageCheck = now;
+
+  try {
+    // Step 3: Read Firestore only if cooldown expired
+    const statusRef = db.collection("status").doc("finalPageLock");
+    const doc = await statusRef.get();
+
+    if (doc.exists) {
+      const locked = doc.data().locked; // true = locked, false = unlocked
+	  console.log("Final Question Lock Status: " + locked);
+
+      // Sync localStorage with Firestore value
+      localStorage.setItem("finalPageUnlock", (locked).toString());
+
+      return locked;
+    } else {
+      console.error("statusDoc not found in finalPageLock collection");
+      return false;
+    }
+  } catch (error) {
+    console.error("Error checking final page lock:", error);
+    return false;
+  }
+}
 
 /*
 --- Misc Repeating functions ---
 */
+//Advances Question Number
+function advanceQuestionNumber() {
+  questionNumber++;
+  localStorage.setItem("questionNumber", questionNumber);
+  console.log("Question number advanced to:", questionNumber);
+}
+
+function isQuestionUnlocked() {
+  // Convert to zero-based index
+  const index = questionNumber - 1;
+
+  // Safety check: make sure index is valid
+  if (index < 0 || index >= questionStatus.length) {
+    console.error("Invalid question number:", questionNumber);
+    return false;
+  }
+  console.log("question index: " + index + " status: "+ questionStatus[index]);
+  return questionStatus[index];
+}
+
+
 
 // SHOW MESSAGE FUNCTION
 function showMessage(text) {
@@ -445,8 +647,6 @@ function showAlert(text) {
 }
 
 																		
-
-
 
 
 

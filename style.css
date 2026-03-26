@@ -5,8 +5,10 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #e3e3e3;
-background: linear-gradient(180deg, rgba(227, 227, 227, 1) 0%, rgba(171, 255, 178, 1) 82%, rgba(227, 227, 227, 1) 100%);
+  background-image: url("playerBG.jpg");
+  background-size: cover;       /* make sure it fills the screen */
+  background-repeat: no-repeat; /* prevent tiling */
+  background-position: center;  /* keep it centered */
   height: 100vh;
   min-height: 90vh;
   display: flex;
